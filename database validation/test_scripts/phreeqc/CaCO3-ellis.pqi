@@ -1,0 +1,143 @@
+TITLE 1: 1m
+SOLUTION 1
+	-units mol/kgw
+	pH 7 charge
+	Na	1.0
+	Cl	1.0
+
+REACTION_PRESSURE
+	12
+
+EQUILIBRIUM_PHASES
+	Calcite 0.0
+	CO2(g)  1.073465 #log10 (12/1.01325)
+
+
+#PITZER
+#-MacInnes   false
+#-use_etheta true
+#-redox      false
+
+
+REACTION_TEMPERATURE 
+ 119 322 in 50 steps
+
+USER_GRAPH
+ -headings Calcite solubility IUPAC SDS Vol. 95
+ -axis_titles "NaCl mol/kgw" " CaCO3 mol/kgw"
+ -plot_csv ../Daten/CaCO3-ellis.dat
+ -axis_titles "T / C" "CaCO3 / (mol/kgw)"
+  10 plot_xy tot("Na"), tot("Ca"), color = Red, symbol = None
+-end
+
+SELECTED_OUTPUT 1
+	-file CaCO3-ellis_llnl_1.0.out
+	-reset false
+
+USER_PUNCH
+	-headings TC m_caco3 m_nacl
+	-start
+	10 PUNCH TC
+	20 PUNCH tot("Ca")
+	30 PUNCH TOT("Na")
+	-end
+
+#-batch ../figures/CaCO3-CO2-H2O_01.jpg true true
+
+END
+
+TITLE 2: 0.2m
+SOLUTION 1
+	-units mol/kgw
+	pH 7 charge
+	Na	0.2
+	Cl	0.2
+
+REACTION_PRESSURE
+	12
+
+EQUILIBRIUM_PHASES
+	Calcite 0.0
+	CO2(g)  1.073465 #log10 (12/1.01325)
+
+
+#PITZER
+#-MacInnes   false
+#-use_etheta true
+#-redox      false
+
+
+REACTION_TEMPERATURE 
+ 119 322 in 50 steps
+
+USER_GRAPH
+ -headings Calcite solubility IUPAC SDS Vol. 95
+ -axis_titles "NaCl mol/kgw" " CaCO3 mol/kgw"
+ -plot_csv ../Daten/CaCO3-ellis.dat
+ -axis_titles "T / C" "CaCO3 / (mol/kgw)"
+  10 plot_xy tot("Na"), tot("Ca"), color = Red, symbol = None
+-end
+
+SELECTED_OUTPUT 1
+	-file CaCO3-ellis_llnl_1.0.out
+	-reset false
+
+USER_PUNCH
+	-headings TC m_caco3 m_nacl
+	-start
+	10 PUNCH TC
+	20 PUNCH tot("Ca")
+	30 PUNCH TOT("Na")
+	-end
+
+#-batch ../figures/CaCO3-CO2-H2O_01.jpg true true
+
+END
+
+TITLE 1: 0.5m
+SOLUTION 1
+	-units mol/kgw
+	pH 7 charge
+	Na 0.5
+	Cl 0.5
+
+REACTION_PRESSURE
+	12
+
+EQUILIBRIUM_PHASES
+	Calcite 0.0
+	CO2(g)  1.073465 #log10 (12/1.01325)
+
+
+#PITZER
+#-MacInnes   false
+#-use_etheta true
+#-redox      false
+
+
+REACTION_TEMPERATURE 
+ 119 322 in 50 steps
+
+USER_GRAPH
+ -headings Calcite solubility IUPAC SDS Vol. 95
+ -axis_titles "NaCl mol/kgw" " CaCO3 mol/kgw"
+ -plot_csv ../Daten/CaCO3-ellis.dat
+ -axis_titles "T / C" "CaCO3 / (mol/kgw)"
+  10 plot_xy tot("Na"), tot("Ca"), color = Red, symbol = None
+-end
+
+SELECTED_OUTPUT 1
+	-file CaCO3-ellis_llnl_1.0.out
+	-reset false
+
+USER_PUNCH
+	-headings TC m_caco3 m_nacl
+	-start
+	10 PUNCH TC
+	20 PUNCH tot("Ca")
+	30 PUNCH TOT("Na")
+	-end
+
+#-batch ../figures/CaCO3-CO2-H2O_01.jpg true true
+
+END

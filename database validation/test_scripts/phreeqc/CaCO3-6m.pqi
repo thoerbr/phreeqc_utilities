@@ -1,0 +1,42 @@
+SOLUTION 1
+pH 7 charge
+
+REACTION_PRESSURE
+	0.01
+
+EQUILIBRIUM_PHASES
+	Calcite 0.0
+	CO2(g) -2.0
+
+#PITZER
+#-MacInnes   false
+#-use_etheta true
+#-redox      false
+
+
+REACTION
+ 	NaCl
+	6.2 moles in 400 steps 
+
+USER_GRAPH
+ -headings Calcite solubility 
+ -axis_titles "NaCl mol/kgw" " CaCO3 mol/kgw"
+ -plot_csv ../Daten/CaCO3-6m.dat
+ -axis_titles "T / C" "CaCO3 / (mol/kgw)"
+  10 graph_x  tot("Na")
+  20 graph_y tot("Ca")
+-end
+
+SELECTED_OUTPUT 1
+	-file CaCO3-6m_llnl.out
+	-reset false
+USER_PUNCH
+	-headings m_nacl m_caco3
+	-start
+	10 PUNCH tot("Na")
+	20 PUNCH tot("Ca")  #C vierwertig wie in CO2, CO3-2, HCO3- etc
+	-end
+
+#-batch ../figures/CaCO3-CO2-H2O_01.jpg true true
+
+END

@@ -1,0 +1,62 @@
+SOLUTION_RAW                 1 
+  -temp                      25
+  -pressure                  1
+  -potential                 0
+  -total_h                   111.01243359383
+  -total_o                   55.506216796914
+  -cb                        -1.9852334701273e-22
+  -density                   0.9970430139642
+  -totals
+    H(0)                     1.43310645409e-25
+  -pH                        6.9973757718913
+  -pe                        4
+  -mu                        1.0064355972293e-07
+  -ah2o                      0.99999999637462
+  -mass_water                1
+  -soln_vol                  1.0029657575527
+  -total_alkalinity          1.9852334701273e-22
+  -activities
+    E                        -4
+    H(0)                     -25.144751543783
+    O(0)                     -42.090496915584
+  -gammas
+    H+                       -0.00016176108832284
+    OH-                      -0.00016176108832284
+EQUILIBRIUM_PHASES_RAW       1 
+  # EXCHANGE_MODIFY candidates; use new_def=true #
+  -new_def                   0
+  -component                 CO2(g)
+      # EQUILIBRIUM_PHASES_MODIFY candidate identifiers #
+      -si                    0
+      -moles                 10
+      -force_equality        0
+      -dissolve_only         0
+      -precipitate_only      0
+      # PPassemblage workspace variables #
+      -si_org                0
+      -delta                 0
+      -initial_moles         0
+      -totals                
+  -component                 Calcite
+      # EQUILIBRIUM_PHASES_MODIFY candidate identifiers #
+      -si                    0
+      -moles                 10
+      -force_equality        0
+      -dissolve_only         0
+      -precipitate_only      0
+      # PPassemblage workspace variables #
+      -si_org                0
+      -delta                 0
+      -initial_moles         0
+      -totals                
+  -eltList                   # List of all elements in phases and alternate reactions
+    C                        2
+    Ca                       1
+    O                        5
+  # PPassemblage workspace variables #
+  -assemblage_totals
+REACTION_TEMPERATURE_RAW     1 
+  -count_temps               100
+  -equal_increments          1
+  -temps                     
+    0 310 

@@ -1,0 +1,137 @@
+---
+title: "Validation of PHREEQC 3.7.0 calcite equilibrium implementation"
+author: "Thorsten Hörbrand"
+date: 05.07.2021
+output:
+  html_document:
+    df_print: paged
+editor_options:
+  chunk_output_type: console
+---
+
+ 
+
+```{r setup, message = F, include = F}
+require(phreeqc)
+require(ggplot2)
+require(dplyr)
+require(tidyr)
+require(readr)
+require(data.table)
+
+theme_set(theme_bw())
+```
+
+
+
+```{r functions, include = F}
+
+#' Function to read PHREEQC input files
+#' 
+#' @param file filename
+#' @param path path to file
+#' @return string to run with phrRunString
+#' @export
+phreeqc_read_input = function(file, path){
+  return(readr::read_lines(paste0(path,"/",file)))
+}
+
+```
+
+```{r validation, warning = F, include = F}
+
+db = list.files("../database")
+pqi = list.files("./phreeqc")
+datfiles = list.files("../solubility_data")
+
+
+
+phrSetOutputStringsOn(TRUE)
+
+for(i in 1:length(pqi)){
+  file = phreeqc_read_input(pqi[i], "./phreeqc/")
+  simres = tibble()
+  
+  for(d in 1:length(db)){
+    phrLoadDatabase(paste0("../database/", db[d]))
+    phrRunString(file)
+    out = phrGetSelectedOutput()$n %>% mutate(db = db[d]) %>% mutate(sim = pqi[i])
+    simres = bind_rows(simres, out)
+  }
+  
+  if(i == 1){
+    data = fread(paste0("../solubility_data/", datfiles[i])) %>% mutate_all(as.numeric) %>%
+      pivot_longer(cols = 2:ncol(.), names_to = "Data", values_to = "m_caco3")
+    
+    pl1 = ggplot(data, aes(x = pCO2_bar, y = m_caco3)) + 
+      geom_line(data = simres, aes(colour = db), size = 1) + 
+      geom_point(aes(shape = Data), size = 2.5) +
+      labs(x = "p(CO2) [bar]", y = "Solubility CaCO3 [mol]", title = "T = 100 °C")
+  }
+  
+  if(i == 2){
+    data = fread(paste0("../solubility_data/", datfiles[i])) %>% mutate_all(as.numeric) %>%
+      pivot_longer(cols = 2:ncol(.), names_to = "Data", values_to = "m_caco3") %>% 
+      mutate(m_caco3 = 0.001*m_caco3)
+    
+    pl2 = ggplot(data, aes(x = pCO2_bar, y = m_caco3)) + 
+      geom_line(data = simres, aes(colour = db), size = 1) +
+      geom_point(aes(shape = Data), size = 2.5) +
+      labs(x = "p(CO2) [bar]", y = "Solubility CaCO3 [mol]", title = "T = 25 °C")
+  }
+  
+  if(i == 3){
+    data = fread(paste0("../solubility_data/", datfiles[i])) %>% mutate_all(as.numeric) %>%
+      pivot_longer(cols = 2:ncol(.), names_to = "Data", values_to = "m_caco3") 
+    
+    pl3 = ggplot(data, aes(x = m_nacl, y = m_caco3)) +  
+      geom_line(data = simres, aes(colour = db), size = 1) + 
+      geom_point(aes(shape = Data), size = 2.5) +
+      labs(x = "NaCl concentration [mol/kgw]", y = "Solubility CaCO3 [mol]", title = "Wolf et al. (1989)")
+  }
+  
+  if(i == 4){
+
+    
+    data = fread(paste0("../solubility_data/", datfiles[i])) %>% mutate_all(as.numeric) %>%
+      #pivot_longer(cols = 2:ncol(.), names_to = "Data", values_to = "m_caco3") %>% 
+      mutate(m_caco3 = 1e-3*mm_CaCO3)
+    
+    simres = simres %>% 
+      mutate(m_nacl = as.factor(round(m_nacl, 1))) %>% 
+      filter(TC > 30) %>% filter(m_caco3 < 1.1*max(data$m_caco3))
+    
+    pl41 = ggplot(data %>% filter(m_NaCl == 0.2), aes(x = TC, y = m_caco3)) + 
+      geom_line(data = simres %>% filter(m_nacl == 0.2) , 
+                aes(colour = db), size = 1) +
+      geom_point(size = 2.5) +
+      labs(title = "Ellis (1963); 0.2 m NaCl", x = "T [°C]", y = "Solubility CaCO3 [mol]")
+    
+    pl42 = ggplot(data %>% filter(m_NaCl == .5), aes(x = TC, y = m_caco3)) + 
+      geom_line(data = simres %>% filter(m_nacl == .5) , 
+                aes(colour = db), size = 1) +
+      geom_point(size = 2.5) +
+      labs(title = "Ellis (1963); 0.5 m NaCl", x = "T [°C]", y = "Solubility CaCO3 [mol]")
+        
+    pl43 = ggplot(data %>% filter(m_NaCl == 1), aes(x = TC, y = m_caco3)) + 
+      geom_line(data = simres %>% filter(m_nacl == 1) , 
+                aes(colour = db), size = 1) +
+      geom_point(size = 2.5) +
+      labs(title = "Ellis (1963); 1 m NaCl", x = "T [°C]", y = "Solubility CaCO3 [mol]")
+  }
+}
+
+```
+# Evaluation
+* Since PHREEQC 3.7.0 the temperature dependence of carbonate minerals was changed in phreeqc.dat and pitzer.dat.
+* PHREEQC databases as published in versions 3.7.0 (370) and 3.4.8 (348) were compared.
+* phreeqc.dat: Changes do not affect 25 °C, only higher temperatures are affected (lower temperatures not checked).
+* phreeqc.dat: major changes in solubility of calcite. The database was "pitzerized" and now shows results very close to pitzer.dat. Ellis (1963) data cannot be nicely reproduced.
+* phreeqc.dat: solubility at high temperatures is now significantly lower.
+* pitzer.dat: changes are not so severe. Solubility at 25 °C slightly increased, while solubility in the 100 - 200 °C range slightly decreased.
+
+
+```{r, warning = F}
+pl1; pl2; pl3; pl41; pl42; pl43
+```
+

@@ -1,0 +1,46 @@
+TITLE CaCO3 solubility
+
+SOLUTION 1
+
+units mol/L
+
+pH 7 charge
+temp 25
+
+#PITZER
+#-MacInnes   false
+#-use_etheta true
+#-redox      false
+
+GAS_PHASE
+-fixed_volume
+-volume 0.01
+CO2(g) 0
+H2O(g) 0
+
+
+REACTION
+	CO2 
+	0.4 moles in 150 steps
+	
+EQUILIBRIUM_PHASES
+	Calcite 0.0
+
+
+SELECTED_OUTPUT 1
+	-file temp.out
+	-reset false
+USER_PUNCH
+	-headings pCO2_bar m_caco3
+	-start
+	10 PUNCH GAS_P/1.01325# PR_P("CO2(g)")/1.01325 #Unterschied getestet, sieht man nicht in plots (CaCO3-10bar_article.R)
+	20 PUNCH TOT("Ca")  #C vierwertig wie in CO2, CO3-2, HCO3- etc
+	-end
+	
+USER_GRAPH 
+-start
+-plot_csv ../Daten/CaCO3-10bar.dat
+-axis_titles "P / bar" "mCaCO3" 
+10 GRAPH_X PR_P("CO2(g)")/1.01325
+20 GRAPH_Y tot("Ca")*1e3
+-end 

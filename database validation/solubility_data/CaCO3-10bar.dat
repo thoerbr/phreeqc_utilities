@@ -1,0 +1,41 @@
+#Visscher, Alex De; Vanderdeelen, Jan (2012): IUPAC-NIST Solubility Data Series. 95. Alkaline Earth Carbonates in Aqueous Systems. Part 2. Ca. In: Journal of Physical and Chemical Reference Data 41 (2), 023105-023105-137. DOI: 10.1063/1.4704138.
+#T=25°C
+#?: source not searched for, but from this Volume
+#pCO2	mmol/L_Ca+2	125°C	ref
+pCO2_bar	De Visscher and Vand. (2012)	McCoy and Smith (1911)	Mitchell (1923), fitted	Mitchell (1923)	Nakayama (1972)
+1	8.760	#0.93888
+1	9.100	#0.96016
+1	9.130	#0.96036
+1	9.180	#0.96036
+1	9.100	#0.96117
+1	9.140	#0.96228
+1	8.852	#0.97100
+1	9.140	#0.97931
+1	8.890	#0.98083
+1	8.910	#0.98123
+1	9.090	#0.98285
+1	9.100	#0.98285
+1	9.240	#0.98285
+1	9.240	#0.98285
+1	9.240	#0.98285
+1	9.240	#0.98285
+1	9.010	#1.01325
+1	9.460	#1.01528
+1	9.460	#1.03554
+1	9.780	#1.11458
+1.1		9.734		
+9.9		22.36		
+4			15.631	#18.0 first data from visscher model fit, second one original data; Taken from Visscher because deviation too high
+6			18.103	#19.5 first data from visscher model fit, second one original data; Taken from Visscher because deviation too high
+8			20.066	#21.3 first data from visscher model fit, second one original data; Taken from Visscher because deviation too high
+10			21.713	#23.0 first data from visscher model fit, second one original data; Taken from Visscher because deviation too high
+4				18.0
+6				19.5
+8				21.3
+10				23.0
+0.9266					8.72
+0.7058					7.65
+0.4902					6.70
+0.1884					4.66
+0.04735					2.90
+0.01951					2.06
